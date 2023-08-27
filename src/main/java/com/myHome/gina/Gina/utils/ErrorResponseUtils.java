@@ -11,13 +11,6 @@ public class ErrorResponseUtils {
         return Map.of("success", false, "error", message);
     }
 
-    public static Map<String, Object> notFound(String message) {
-        if (Objects.isNull(message)) {
-            message = "Resource not found";
-        }
-        return Map.of("success", false, "error", message);
-    }
-
     public static Map<String, Object> unauthorized(String message) {
         if (Objects.isNull(message)) {
             message = "Unauthorized";

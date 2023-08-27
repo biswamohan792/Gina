@@ -4,6 +4,7 @@ import com.myHome.gina.Gina.constants.AuthConstants;
 import com.myHome.gina.Gina.constants.FileConstants;
 import com.myHome.gina.Gina.models.Service;
 import com.myHome.gina.Gina.models.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,13 +40,12 @@ public class AuthUtils {
         Date expirationDate = new Date(expirationTimeInMillis);
 
         // Build the JWT token
-        String token = Jwts.builder()
+
+        return Jwts.builder()
                 .setSubject(user.getUserId()) // You can use any unique identifier for the subject
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, AuthConstants.JWT_SECRET) // Replace "yourSecretKey" with a strong secret key
                 .compact();
-
-        return token;
     }
 
     public static String jwtTokenGenerate(Service user){
@@ -54,13 +54,12 @@ public class AuthUtils {
         Date expirationDate = new Date(expirationTimeInMillis);
 
         // Build the JWT token
-        String token = Jwts.builder()
+
+        return Jwts.builder()
                 .setSubject(user.getServiceId()) // You can use any unique identifier for the subject
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, AuthConstants.JWT_SECRET) // Replace "yourSecretKey" with a strong secret key
                 .compact();
-
-        return token;
     }
 
     public static boolean checkJwtToken(String jwt){
@@ -73,9 +72,21 @@ public class AuthUtils {
         }
     }
 
+    public static String getIdFromJWTToken(String jwt){
+        try{
+            Claims claims = Jwts.parser()
+                    .setSigningKey(AuthConstants.JWT_SECRET)
+                    .parseClaimsJws(jwt)
+                    .getBody();
+            return claims.getSubject();
+        } catch (Exception e){
+            return null;
+        }
+    }
+
     public static boolean anyNull(Object ...objects){
-        for(Object trav:objects)
-            if(Objects.isNull(trav))
+        for(Object crawl:objects)
+            if(Objects.isNull(crawl))
                 return true;
         return false;
     }

@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
             if(AuthUtils.checkPassword(user.getPassword(),actualUser.getPassword())){
                 if(Objects.nonNull(user.getPic())) actualUser.setPic(user.getPic());
                 if(Objects.nonNull(user.getName())) actualUser.setName(user.getName());
-                if(Objects.nonNull(user.getAge())) actualUser.setAge(user.getAge());
+                actualUser.setAge(user.getAge());
                 if(Objects.nonNull(user.getDetails())) actualUser.setDetails(user.getDetails());
                 if(Objects.nonNull(user.getPhone())) actualUser.setPhone(user.getPhone());
                 userRepository.save(actualUser);

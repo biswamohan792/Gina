@@ -1,6 +1,7 @@
 package com.myHome.gina.Gina.models;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -18,6 +19,7 @@ public class Service {
     @Id
     private String serviceId;
     private String name;
+    @Column(unique = true)
     private String email;
     private String password;
     private String details;

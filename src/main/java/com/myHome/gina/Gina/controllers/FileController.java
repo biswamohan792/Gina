@@ -5,14 +5,12 @@ import com.myHome.gina.Gina.utils.AuthUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -23,11 +21,11 @@ import java.util.Map;
 public class FileController {
 
     @PostMapping("/upload")
-    public Map upload(@RequestParam("file")  MultipartFile file){
+    public Map<String,Object> upload(@RequestParam("file")  MultipartFile file){
         try {
             String fileName = AuthUtils.getRandomId(10).concat(".png");
             file.transferTo(Path.of(FileConstants.FILE_SAVE_PATH, fileName));
-            return Map.of("success",true,"data",fileName);
+            return Map.of("success",true,"body",fileName);
         }catch (Exception e){
             e.printStackTrace();
             return Map.of("success",false);
